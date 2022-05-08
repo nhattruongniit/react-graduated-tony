@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 // mui core
 import { styled } from '@mui/material/styles';
@@ -19,6 +20,9 @@ import { authenticated } from 'apis/user.api';
 // configs
 import { PATH_NAME } from 'configs';
 
+// states
+import { setUser } from 'states/app/app.slice';
+
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -31,6 +35,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 function MainLayout({ children }) {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -51,7 +56,9 @@ function MainLayout({ children }) {
         if(!data.user) {
           navigate(PATH_NAME.LOGIN)
           authService.clearStorage();
+          return;
         }
+        dispatch(setUser(data.user))
       } catch (error) {
         // do something error
         if(!error.data.isSuccess){

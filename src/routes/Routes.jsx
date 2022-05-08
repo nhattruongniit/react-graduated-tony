@@ -46,31 +46,33 @@ const routes = [
 
 function RoutesMain() {
   return (
-    <Router>
-      <Suspense fallback={<div />}>
-        <Routes>
-          {routes.map((routeItem, routeIndex) => {
-            const Component = routeItem.element;
-            const Layout = routeItem.layout || Fragment;
-            const Guard = routeItem.guard || Fragment;
+    <>
+      <Router>
+        <Suspense fallback={<div />}>
+          <Routes>
+            {routes.map((routeItem, routeIndex) => {
+              const Component = routeItem.element;
+              const Layout = routeItem.layout || Fragment;
+              const Guard = routeItem.guard || Fragment;
 
-            return (
-              <Route 
-                key={routeIndex}
-                path={routeItem.path}
-                element={
-                  <Guard>
-                    <Layout>
-                      <Component />
-                    </Layout>
-                  </Guard>
-                }
-              />
-            )
-          })}
-        </Routes>
-      </Suspense>
-    </Router>
+              return (
+                <Route 
+                  key={routeIndex}
+                  path={routeItem.path}
+                  element={
+                    <Guard>
+                      <Layout>
+                        <Component />
+                      </Layout>
+                    </Guard>
+                  }
+                />
+              )
+            })}
+          </Routes>
+        </Suspense>
+      </Router>
+    </>
   )
 }
 

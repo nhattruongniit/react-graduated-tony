@@ -10,7 +10,6 @@ export const axiosInstance = axios.create({
 export default function initRequest() {
   axiosInstance.interceptors.request.use(
     config => {
-      console.log('request success : ', config)
       if(config.showLoading) {
         // show loading
       }
