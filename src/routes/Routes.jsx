@@ -14,6 +14,7 @@ import GuestGuard from 'guards/GuestGuard';
 // pages
 const Dashboard = lazy(() => import('pages/Dashboard'));
 const Login = lazy(() => import('pages/Login'));
+const User = lazy(() => import('pages/User'));
 
 const routes = [
   {
@@ -28,6 +29,12 @@ const routes = [
   {
     path: PATH_NAME.DASHBOARD,
     element: Dashboard,
+    layout: MainLayout,
+    guard: AuthGuard
+  },
+  {
+    path: PATH_NAME.USER,
+    element: User,
     layout: MainLayout,
     guard: AuthGuard
   },

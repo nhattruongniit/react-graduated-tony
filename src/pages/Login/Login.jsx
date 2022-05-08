@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from 'react-router-dom';
 
 // material
 import Avatar from "@mui/material/Avatar";
@@ -14,8 +15,14 @@ import Container from "@mui/material/Container";
 // material icons
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
+// api
+import { loginUser } from 'apis/user.api';
 
-// heplers
+// service
+import authService from "services/autService";
+
+// configs
+import { PATH_NAME } from "configs";
 
 function Copyright(props) {
   return (
@@ -37,9 +44,26 @@ function Copyright(props) {
 }
 
 function Login() {
+  const navigate = useNavigate();
+  
   async function onSubmit(event) {
     event.preventDefault();
-    
+    const data = new FormData(event.currentTarget);
+    const email = data.get('email');
+    const password = data.get('password');
+
+    try {
+      const bodyData = {
+        email,
+        password
+      }
+      const res = await loginUser('/user/login', bodyData);
+      const accessToken = res.data.token;
+      authService.setAccessToken(accessToken)
+      navigate(PATH_NAME.ROOT);
+    } catch (err) {
+      // do something
+    }
   }
 
   return (

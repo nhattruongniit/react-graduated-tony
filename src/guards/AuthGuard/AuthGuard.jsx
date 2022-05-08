@@ -4,8 +4,11 @@ import { Navigate } from 'react-router-dom';
 // configs
 import { PATH_NAME } from 'configs';
 
+// service
+import authService from "services/autService";
+
 function AuthGuard({ children }) {
-  const isAuth = false;
+  const isAuth = authService.isAuthenticated();
 
   if(!isAuth) return <Navigate to={PATH_NAME.LOGIN} />
 
