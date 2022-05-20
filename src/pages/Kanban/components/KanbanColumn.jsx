@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 // @mui
 import { Paper, Stack, Button, Typography } from "@mui/material";
 // components
 import Iconify from "components/Iconify";
-//
+// sections
 import KanbanAddTask from "./KanbanAddTask";
 import KanbanTaskCard from "./KanbanTaskCard";
+// redux
+import { addTask, deleteTask } from "states/kanban/kanban.slice";
 
 export default function KanbanColumn({ column, index }) {
+  const dispatch = useDispatch();
   const board = useSelector((state) => state.kanban.board);
 
   const [open, setOpen] = useState(false);
@@ -25,11 +28,11 @@ export default function KanbanColumn({ column, index }) {
   };
 
   const handleDeleteTask = (cardId) => {
-    // dispatch(deleteTask({ cardId, columnId: id }));
+    dispatch(deleteTask({ cardId, columnId: id }));
   };
 
   const handleAddTask = (task) => {
-    // dispatch(addTask({ card: task, columnId: id }));
+    dispatch(addTask({ card: task, columnId: id }));
     handleCloseAddTask();
   };
 

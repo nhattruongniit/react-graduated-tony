@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
 
-export default function KanbanTaskCard({ card, index }) {
+export default function KanbanTaskCard({ card, index, handleDeleteTask }) {
   if (!card) return null;
 
   const { name, description } = card;
