@@ -6,10 +6,10 @@ class HttpRequest{
   }
 
   async get(url, config) {
-    return this.api.get(url, config)
+    return this.api.get(url, config = {})
   }
 
-  async post(url, bodyData, config) {
+  async post(url, bodyData, config = {}) {
     return this.api.post(url, bodyData, config)
   }
 }

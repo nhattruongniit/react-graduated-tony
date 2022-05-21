@@ -13,3 +13,4 @@ export const authenticated = async(url, accessToken) => {
     }
   })
 }
+

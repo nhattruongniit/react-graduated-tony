@@ -1,5 +1,11 @@
 import axios from 'axios';
+import { store } from 'states';
+
+// services
 import authService from './autService';
+
+// redux
+import { setLoading } from 'states/app/app.slice';
 
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_ENDPOINT,
@@ -8,10 +14,21 @@ export const axiosInstance = axios.create({
 })
 
 export default function initRequest() {
+  let requestCount = 0;
+
+  function decreaseRequestCount() {
+    requestCount = requestCount - 1;
+    if(requestCount === 0) {
+      store.dispatch(setLoading(false));
+    }
+  }
+
   axiosInstance.interceptors.request.use(
     config => {
       if(config.showLoading) {
         // show loading
+        requestCount = requestCount + 1;
+        store.dispatch(setLoading(true));
       }
   
       // add x-auth-token
@@ -25,6 +42,7 @@ export default function initRequest() {
     error => {
       if(error.config.showLoading) {
         // hide loading
+        decreaseRequestCount();
       }
       return Promise.reject(error);
     }
@@ -34,17 +52,20 @@ export default function initRequest() {
     res => {
       if(res.config.showLoading) {
         // hide loading
+        decreaseRequestCount();
       }
       return res;
     },
     async error => {
       if((error?.config.showLoading) || error.code === 'ENCONNABORTED') {
         // hide loading
+        decreaseRequestCount();
       }
   
       // handle request timeout
       if(error.code === 'ENCONNABORTED') {
         // hide loading
+        decreaseRequestCount();
       }
   
       // handle refresh token & access token expire
