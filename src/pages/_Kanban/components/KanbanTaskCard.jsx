@@ -1,7 +1,5 @@
-import React from 'react';
-import {  Draggable } from 'react-beautiful-dnd';
-
-// mui
+import { Draggable } from "react-beautiful-dnd";
+// @mui
 import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -10,12 +8,14 @@ import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
 
-function KanbanTaskCard({ card, index }) {
-  if(!card) return null;
+export default function KanbanTaskCard({ card, index, handleDeleteTask }) {
+  if (!card) return null;
+
+  const { name, description } = card;
 
   return (
     <Draggable draggableId={card.id} index={index}>
-      {(provided, snapshot) => (
+      {(provided) => (
         <div
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -24,10 +24,10 @@ function KanbanTaskCard({ card, index }) {
           <Card sx={{ minWidth: 275 }}>
             <CardContent>
               <Typography variant="body1" component="div">
-                {card.description}
+                {description}
               </Typography>
               <Typography sx={{ mb: 1.5, mt: 1 }} color="text.secondary">
-                {card.name}
+                {name}
               </Typography>
               <AvatarGroup max={4} sx={{ mb: 1.5 }}>
                 {card.assignee.length > 0 &&
@@ -44,7 +44,5 @@ function KanbanTaskCard({ card, index }) {
         </div>
       )}
     </Draggable>
-  )
+  );
 }
-
-export default KanbanTaskCard

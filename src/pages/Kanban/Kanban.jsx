@@ -1,123 +1,107 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-// @mui
-import { Stack } from "@mui/material";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
+// mui
+import Stack from '@mui/material/Stack';
+// mocks
+import { dataBoard } from 'mocks/dataKanban'
+// redux
+import { getBoard, updateCardOrder, updateColumnOrder } from 'states/kanban/kanban.slice'
 // sections
 import KanbanColumn from "./components/KanbanColumn";
-import KanbanColumnAdd from "./components/KanbanComlumnAdd";
-
-// mocks
-import { dataBoard } from "mocks/dataKanban";
-
-// actions
-import {
-  getBoard,
-  updateColumnOrder,
-  updateCardOrder,
-} from "states/kanban/kanban.slice";
 
 function Kanban() {
   const dispatch = useDispatch();
-  const board = useSelector((state) => state.kanban.board);
+  const board = useSelector(state => state.kanban.board)
 
-  const onDragEnd = (result) => {
-    // Reorder card
-    const { destination, source, draggableId, type } = result;
 
-    if (!destination) return;
+  function onDragEnd(result) {
+    const { source, destination, draggableId, type } = result;
 
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
-      return;
+    if(!destination) return;
+
+    if(destination.droppableId === source.droppableId && destination.index === source.index) return;
 
     // update column
-    if (type === "column") {
-      const newColumnOrder = Array.from(board.columnOrder);
+    if(type === 'column') {
+      const newColumnOrder = [...board.columnOrder];
+      // change order
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
-      dispatch(updateColumnOrder(newColumnOrder));
+      // swap
+      // [newColumnOrder[source.index], newColumnOrder[destination.index]] = [newColumnOrder[destination.index], newColumnOrder[source.index]];
+      dispatch(updateColumnOrder(newColumnOrder))
       return;
     }
 
     // update card
     const start = board.columns[source.droppableId];
-    const finish = board.columns[destination.droppableId];
+    const end = board.columns[destination.droppableId];
 
-    // card same column
-    if (start.id === finish.id) {
-      const updatedCardIds = [...start.cardIds];
-      updatedCardIds.splice(source.index, 1);
-      updatedCardIds.splice(destination.index, 0, draggableId);
-      const updatedColumn = {
+    // same column
+    if(start.id === end.id) {
+      const newCardIds = [...start.cardIds];
+      newCardIds.splice(source.index, 1);
+      newCardIds.splice(destination.index, 0, draggableId);
+      const obj = {
         ...start,
-        cardIds: updatedCardIds,
-      };
+        cardIds: newCardIds 
+      }
 
-      dispatch(
-        updateCardOrder({
-          ...board.columns,
-          [updatedColumn.id]: updatedColumn,
-        })
-      );
+      dispatch(updateCardOrder({
+        ...board.columns,
+        [obj.id]: obj
+      }))
       return;
     }
 
-    // card different column
+    // different column
     const startCardIds = [...start.cardIds];
     startCardIds.splice(source.index, 1);
     const updatedStart = {
       ...start,
-      cardIds: startCardIds,
-    };
+      cardIds: startCardIds
+    }
 
-    const finishCardIds = [...finish.cardIds];
-    finishCardIds.splice(destination.index, 0, draggableId);
-    const updatedFinish = {
-      ...finish,
-      cardIds: finishCardIds,
-    };
+    const endCardIds = [...end.cardIds];
+    endCardIds.splice(destination.index, 0, draggableId);
+    const updatedEnd = {
+      ...end,
+      cardIds: endCardIds
+    }
 
-    dispatch(
-      updateCardOrder({
-        ...board.columns,
-        [updatedStart.id]: updatedStart,
-        [updatedFinish.id]: updatedFinish,
-      })
-    );
-  };
+    dispatch(updateCardOrder({
+      ...board.columns,
+      [updatedStart.id]: updatedStart,
+      [updatedEnd.id]: updatedEnd
+    }))
+  }
 
-  useEffect(() => {
-    dispatch(getBoard(dataBoard));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  React.useEffect(() => {
+    dispatch(getBoard(dataBoard))
+  }, [dispatch])
+  
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="all-columns" direction="horizontal" type="column">
-        {(provided) => (
+      <Droppable droppableId="all-column" direction="horizontal" type="column">
+        {(provided, snapshot) => (
           <Stack
             {...provided.droppableProps}
-            ref={provided.innerRef}
+            ref={provided.innerRef} 
             direction="row"
             alignItems="flex-start"
             spacing={3}
-            sx={{ height: "calc(100% - 32px)", overflowY: "hidden" }}
+            style={{ height: "calc(100% - 32px)"}}
           >
             {board.columnOrder.map((columnId, index) => (
-              <KanbanColumn
-                index={index}
+              <KanbanColumn 
                 key={columnId}
+                index={index}
                 column={board.columns[columnId]}
               />
             ))}
-
             {provided.placeholder}
-            <KanbanColumnAdd />
           </Stack>
         )}
       </Droppable>

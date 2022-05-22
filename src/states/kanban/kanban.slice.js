@@ -13,7 +13,6 @@ export const kanbanSlice = createSlice({
   initialState,
   reducers: {
     getBoard: (state, action) => {
-      console.log("getBard", action);
       state.board = action.payload;
     },
     updateColumnOrder: (state, action) => {

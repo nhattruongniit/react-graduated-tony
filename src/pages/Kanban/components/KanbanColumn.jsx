@@ -1,100 +1,63 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Droppable, Draggable } from "react-beautiful-dnd";
-// @mui
-import { Paper, Stack, Button, Typography } from "@mui/material";
-// components
-import Iconify from "components/Iconify";
-// sections
-import KanbanAddTask from "./KanbanAddTask";
-import KanbanTaskCard from "./KanbanTaskCard";
-// redux
-import { addTask, deleteTask } from "states/kanban/kanban.slice";
+import React from 'react';
+import { useSelector } from "react-redux";
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 
-export default function KanbanColumn({ column, index }) {
-  const dispatch = useDispatch();
-  const board = useSelector((state) => state.kanban.board);
+// mui
+import { Paper, Stack, Typography } from '@mui/material';
 
-  const [open, setOpen] = useState(false);
+// section
+import KanbanTaskCard from './KanbanTaskCard';
 
-  const { name, cardIds, id } = column;
 
-  const handleOpenAddTask = () => {
-    setOpen((prev) => !prev);
-  };
 
-  const handleCloseAddTask = () => {
-    setOpen(false);
-  };
-
-  const handleDeleteTask = (cardId) => {
-    dispatch(deleteTask({ cardId, columnId: id }));
-  };
-
-  const handleAddTask = (task) => {
-    dispatch(addTask({ card: task, columnId: id }));
-    handleCloseAddTask();
-  };
+function KanbanColumn({ column, index }) {
+  const board = useSelector(state => state.kanban.board)
 
   return (
-    <Draggable draggableId={id} index={index}>
-      {(provided) => (
+    <Draggable draggableId={column.id} index={index}>
+      {(provided, snapshot) => (
         <Paper
           {...provided.draggableProps}
+          {...provided.dragHandleProps}
           ref={provided.innerRef}
           variant="outlined"
-          sx={{ px: 2, bgcolor: "grey.5008" }}
+          sx={{ px: 2, bgColor: 'gray' }}
         >
-          <Stack spacing={3} {...provided.dragHandleProps}>
+          <Stack spacing={3} >
             <Typography component="h5" variant="h5" sx={{ pt: 2 }}>
-              {name}
+              {column.name}
             </Typography>
 
-            <Droppable droppableId={id} type="task">
-              {(provided) => (
+            <Droppable droppableId={column.id} type="task">
+              {(provided, snapshot) => (
                 <Stack
-                  ref={provided.innerRef}
                   {...provided.droppableProps}
+                  ref={provided.innerRef}
                   spacing={2}
                   width={280}
                 >
-                  {cardIds.map((cardId, index) => (
-                    <KanbanTaskCard
-                      key={cardId}
-                      onDeleteTask={handleDeleteTask}
-                      card={board?.cards[cardId]}
+                  
+                  {column.cardIds.map((cardId, index) => (
+                    <KanbanTaskCard 
                       index={index}
+                      key={cardId}
+                      card={board.cards[cardId]}
                     />
                   ))}
+                
                   {provided.placeholder}
                 </Stack>
               )}
             </Droppable>
 
-            <Stack spacing={2} sx={{ pb: 3 }}>
-              {open && (
-                <KanbanAddTask
-                  onAddTask={handleAddTask}
-                  onCloseAddTask={handleCloseAddTask}
-                />
-              )}
+            <Typography component="h5" variant="h5" sx={{ pb: 1 }} />
 
-              <Button
-                fullWidth
-                size="large"
-                color="inherit"
-                startIcon={
-                  <Iconify icon={"eva:plus-fill"} width={20} height={20} />
-                }
-                onClick={handleOpenAddTask}
-                sx={{ fontSize: 14 }}
-              >
-                Add Task
-              </Button>
-            </Stack>
+
           </Stack>
         </Paper>
       )}
     </Draggable>
-  );
+  )
 }
+
+export default KanbanColumn

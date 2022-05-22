@@ -1,6 +1,6 @@
 export const dataBoard = {
   cards: {
-    "9d98ce30-3c51-4de3-8537-7a4b663ee3af": {
+    "123": {
       assignee: [
         {
           avatar: "https://i.pravatar.cc/300",
@@ -9,10 +9,10 @@ export const dataBoard = {
         },
       ],
       description: "Production",
-      id: "9d98ce30-3c51-4de3-8537-7a4b663ee3af",
+      id: "123",
       name: "Release minimals DS",
     },
-    "98bf6e8b-becc-485b-9c3f-a7d09392c48d": {
+    "753": {
       assignee: [
         {
           avatar: "https://i.pravatar.cc/300",
@@ -42,17 +42,17 @@ export const dataBoard = {
       ],
       description:
         "We are looking for vue experience and of course node js strong knowledge",
-      id: "98bf6e8b-becc-485b-9c3f-a7d09392c48d",
+      id: "753",
       name: "Interview for the Asis. Sales Manager",
     },
-    "99fbc02c-de89-4be3-9515-f8bd12227d38": {
+    "243": {
       assignee: [],
       description:
         "We nede to make it aggressive with pricing because it’s in their interest to acquire us",
-      id: "99fbc02c-de89-4be3-9515-f8bd12227d38",
+      id: "243",
       name: "Change the height of the top bar because it looks too ch",
     },
-    "ab9cebca-6cb4-4847-aa17-3b261b3dd0fb": {
+    "956": {
       assignee: [
         {
           avatar: "https://i.pravatar.cc/300",
@@ -67,43 +67,58 @@ export const dataBoard = {
       ],
       description:
         "We nede to make it aggresive with pricing because it’s in their interest to acquire us",
-      id: "ab9cebca-6cb4-4847-aa17-3b261b3dd0fb",
+      id: "956",
       name: "Integrate Stripe API",
+    },
+    "835": {
+      assignee: [
+        {
+          avatar: "https://i.pravatar.cc/300",
+          id: "a3be5485-03bf-47a6-b553-a9cf9f070ed8",
+          name: "truong",
+        },
+      ],
+      description:
+        "We are one",
+      id: "835",
+      name: "Prepare to build",
     },
   },
   columns: {
-    "4ac3cd37-b3e1-466a-8e3b-d7d88f6f5d4f": {
-      cardIds: ["9d98ce30-3c51-4de3-8537-7a4b663ee3af"],
-      id: "4ac3cd37-b3e1-466a-8e3b-d7d88f6f5d4f",
+    "4ac3": {
+      cardIds: ["123"],
+      id: "4ac3",
       name: "Production",
     },
-    "8cd887ec-b3bc-11eb-8529-0242ac130003": {
+    "8cd": {
       cardIds: [
         ("deb02f04-9cf8-4f1e-97e0-2fbda84cc6b3",
-        "98bf6e8b-becc-485b-9c3f-a7d09392c48d",
-        "99fbc02c-de89-4be3-9515-f8bd12227d38"),
+        "753",
+        "243"),
       ],
-      id: "8cd887ec-b3bc-11eb-8529-0242ac130003",
+      id: "8cd",
       name: "Backlog",
     },
-    "37a9a747-f732-4587-a866-88d51c037641": {
+    "37a": {
       cardIds: [],
-      id: "37a9a747-f732-4587-a866-88d51c037641",
+      id: "37a",
       name: "Q&A",
     },
-    "23008a1f-ad94-4771-b85c-3566755afab7": {
+    "230": {
       cardIds: [
-        "ab9cebca-6cb4-4847-aa17-3b261b3dd0fb",
-        "ebf0d26a-78e5-414f-986f-003d8fcd3154",
+        "956",
+        "835",
       ],
-      id: "23008a1f-ad94-4771-b85c-3566755afab7",
+      id: "230",
       name: "Progress",
     },
   },
   columnOrder: [
-    "8cd887ec-b3bc-11eb-8529-0242ac130003",
-    "23008a1f-ad94-4771-b85c-3566755afab7",
-    "37a9a747-f732-4587-a866-88d51c037641",
-    "4ac3cd37-b3e1-466a-8e3b-d7d88f6f5d4f",
+    "8cd",
+    "230",
+    "37a",
+    "4ac3",
   ],
 };
+
+
